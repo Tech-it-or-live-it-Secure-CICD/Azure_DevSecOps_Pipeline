@@ -2,7 +2,7 @@ pool: Default
 jobs:
 - job: sast_scan
   steps:
-  - script: bandit -f json -o sast-result.json -r app.py || true
+  - script: bandit -f json -o sast-result.json -r app/app.py || true
   - task: CopyFiles@2
     inputs:
       sourceFolder: '$(Build.SourcesDirectory)'
@@ -15,7 +15,7 @@ jobs:
 
 - job: sca_scan
   steps:
-  - script: pyraider check -f requirements.txt -e json sca-results.json || true
+  - script: pyraider check -f app/requirements.txt -e json sca-results.json || true
   - task: CopyFiles@2
     inputs:
       sourceFolder: '$(Build.SourcesDirectory)'
