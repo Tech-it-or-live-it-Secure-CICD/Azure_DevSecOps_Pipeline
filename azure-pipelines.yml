@@ -5,7 +5,7 @@ jobs:
   - script: bandit -f json -o sast-result.json -r app/app.py || true
   - task: CopyFiles@2
     inputs:
-      sourceFolder: '$(Build.SourcesDirectory)'
+      sourceFolder: '.'
       contents: '*.json'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
@@ -18,7 +18,7 @@ jobs:
   - script: pyraider check -f app/requirements.txt -e json sca-results.json || true
   - task: CopyFiles@2
     inputs:
-      sourceFolder: '$(Build.SourcesDirectory)'
+      sourceFolder: '.'
       contents: '*.json'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
