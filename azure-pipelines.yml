@@ -2,10 +2,10 @@ pool: Default
 jobs:
 - job: sast_scan
   steps:
-  - script: bandit -f json -o Reports/sast-result.json -r app/app.py || true
+  - script: bandit -f json -o $(Build.SourcesDirectory)/sast-result.json -r app/app.py || true
   - task: CopyFiles@2
     inputs:
-      sourceFolder: './Reports'
+      sourceFolder: '$(Build.SourcesDirectory)'
       contents: '*.json'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
@@ -15,10 +15,10 @@ jobs:
 
 - job: sca_scan
   steps:
-  - script: pyraider check -f app/requirements.txt -e json Reports/sca-results.json || true
+  - script: pyraider check -f app/requirements.txt -e json sca-results.json || true
   - task: CopyFiles@2
     inputs:
-      sourceFolder: './Reports'
+      sourceFolder: '$(Build.SourcesDirectory)'
       contents: '*.json'
       targetFolder: $(Build.ArtifactStagingDirectory)
   - task: PublishBuildArtifacts@1
